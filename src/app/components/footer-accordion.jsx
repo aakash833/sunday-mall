@@ -38,7 +38,7 @@ export default function FooterAccordion() {
         ))}
       </div>
 
-      <div className="mt-8 text-center text-sm">
+      <div className="mt-8 mb-24 text-center text-sm">
         <p>Copyright © 2024 | All Rights Reserved</p>
         <p>SundayMall</p>
       </div>

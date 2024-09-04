@@ -95,7 +95,10 @@ export default function Header() {
         </ul>
         <div className="mt-8 px-6">
           <Link
-            href="#login"
+            onClick={() => {
+              setMenuOpen(false);
+            }}
+            href="/login"
             className="flex items-center text-lg font-bold text-black"
           >
             <Image
