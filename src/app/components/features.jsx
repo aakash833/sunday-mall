@@ -26,16 +26,16 @@ const features = [
 
 const FeaturesList = () => {
   return (
-    <div className="px-4 md:px-14 py-10 bg-white text-black grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="px-4 md:px-14 py-10 bg-white text-black grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8 text-center">
       {features.map((feature, index) => (
         <div
           key={index}
-          className="border space-y-3 flex flex-col justify-center items-center p-3"
+          className="border space-y-3 flex flex-col justify-center items-center p-3 rounded-xl"
           style={{ marginBottom: "20px" }}
         >
-          <div>{feature.icon}</div>
-          <h3>{feature.title}</h3>
-          <p>{feature.description}</p>
+          <div className="text-3xl">{feature.icon}</div>
+          <h3 className="font-bold text-xl">{feature.title}</h3>
+          <p className="text-gray-700">{feature.description}</p>
         </div>
       ))}
     </div>
