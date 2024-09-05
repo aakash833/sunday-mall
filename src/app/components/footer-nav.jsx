@@ -9,12 +9,12 @@ import Image from "next/image";
 export default function FooterMenu() {
   return (
     <footer className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-6 py-3 flex justify-between items-center shadow-lg">
-      <Link href="#home" className="flex flex-col items-center">
+      <Link href="/" className="flex flex-col items-center">
         <Image src={HomeIcon} alt="Home" width={30} height={30} />
         <span className="font-medium text-gray-800 mt-2">Home</span>
       </Link>
 
-      <Link href="#account" className="flex flex-col items-center">
+      <Link href="/login" className="flex flex-col items-center">
         <Image src={UserIcon} alt="Account" width={30} height={30} />
         <span className="font-medium text-gray-800 mt-2">Account</span>
       </Link>

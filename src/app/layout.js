@@ -4,6 +4,7 @@ import Header from "./components/header";
 import FooterMenu from "./components/footer-nav";
 import FooterAccordion from "./components/footer-accordion";
 import Features from "./components/features";
+import Footer from "./components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,8 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <Header />
         {children}
-        <Features />
+        {/* <Features /> */}
+        <Footer />
         <FooterAccordion />
         <FooterMenu />
       </body>

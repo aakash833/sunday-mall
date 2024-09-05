@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-prev-arrow,
+.custom-next-arrow {
+  cursor: pointer;
+}
+
+.custom-prev-arrow:hover,
+.custom-next-arrow:hover {
+  transform: scale(1.1); /* Zoom effect on hover */
+  transition: transform 0.2s;
+}
