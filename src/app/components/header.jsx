@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BrandLogo from "@/assets/images/cropped-Group-1.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,109 +9,172 @@ import CartLogo from "@/assets/icons/cart.svg";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Shop", href: "#shop" },
+  { label: "Home", href: "/" },
+  { label: "Products", href: "/products" },
   { label: "About Us", href: "#about-us" },
   { label: "Contact Us", href: "#contact-us" },
   { label: "FAQs", href: "#faqs" },
 ];
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSticky, setIsSticky] = useState(true); // Initial state is sticky
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+    setIsMenuOpen(!isMenuOpen);
   };
 
+  // Handle scrolling
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // User is scrolling down and passed 100px
+        setIsSticky(false);
+      } else if (currentScrollY < lastScrollY || currentScrollY <= 100) {
+        // User is scrolling up or near the top
+        setIsSticky(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
+
   return (
-    <header className="bg-black text-white px-4 md:px-12 py-8 flex justify-between items-center">
-      <Image src={BrandLogo} alt="brand" height={50} width={130} />
-
-      {/* Desktop Navigation */}
-      <nav className="hidden md:flex md:gap-6">
-        {navLinks.map((item, index) => (
-          <Link
-            key={index}
-            href={item.href}
-            className="text-lg font-bold hover:text-indigo-600"
-          >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
-
-      <div className="flex items-center gap-4">
-        <Image
-          src={SearchLogo}
-          alt="Search"
-          height={24}
-          width={24}
-          className="filter invert"
-        />
-        <Image
-          src={UserLogo}
-          alt="user"
-          height={24}
-          width={24}
-          className="filter invert"
-        />
-        <Image
-          src={CartLogo}
-          alt="cart"
-          height={24}
-          width={24}
-          className="filter invert"
-        />
-        {/* Hamburger Menu Button */}
-        <button onClick={toggleMenu} className="md:hidden">
-          <FaBars size={24} className="text-white" />
-        </button>
-      </div>
-
-      {/* Mobile Navigation */}
-      <nav
-        className={`fixed top-0 right-0 h-full w-full bg-white shadow-lg transition-transform transform ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        } z-50 md:hidden`}
+    <header
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ease-in-out p-4 ${
+        isSticky
+          ? "bg-white shadow-lg transform translate-y-0 opacity-100"
+          : "bg-white shadow-md transform -translate-y-full opacity-0"
+      }`}
+      style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }} // Adjust transition duration
+    >
+      <div
+        className={`p-4 xl:px-14 py-5 flex justify-between items-center bg-white rounded-2xl border ${
+          isMenuOpen ? "border-0" : "border border-black"
+        }`}
       >
-        <div className="flex justify-between bg-black text-white items-center mb-8 p-6">
-          <h2 className="text-lg font-bold">Menu</h2>
-          <button onClick={toggleMenu}>
-            <FaTimes size={24} className="text-white z-50" />
-          </button>
+        {/* Brand Logo */}
+        <div className="flex items-center">
+          <Image
+            src={BrandLogo}
+            alt="brand logo"
+            height={50}
+            width={130}
+            style={{ filter: "invert(1)" }}
+          />
         </div>
 
-        <ul className="space-y-8 px-6">
+        {/* Hamburger Menu Icon */}
+        <button
+          onClick={toggleMenu}
+          className="block lg:hidden focus:outline-none"
+        >
+          {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+        </button>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center gap-4">
           {navLinks.map((item, index) => (
-            <li key={index}>
+            <Link
+              key={index}
+              href={item.href}
+              className="p-3 text-sm font-bold whitespace-nowrap hover:text-indigo-600"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Desktop Icons */}
+        <div className="hidden lg:flex items-center gap-6">
+          <Image
+            src={SearchLogo}
+            alt="Search"
+            height={24}
+            width={24}
+            className="cursor-pointer transition-transform transform hover:scale-110"
+          />
+          <Image
+            src={UserLogo}
+            alt="User"
+            height={24}
+            width={24}
+            className="cursor-pointer transition-transform transform hover:scale-110"
+          />
+          <Image
+            src={CartLogo}
+            alt="Cart"
+            height={24}
+            width={24}
+            className="cursor-pointer transition-transform transform hover:scale-110"
+          />
+          <Link
+            target="_blank"
+            href="/login"
+            className="bg-black text-white hover:bg-white hover:text-black border-2 rounded-full xl:ml-6 px-12 py-3"
+          >
+            Login
+          </Link>
+        </div>
+      </div>
+
+      {/* Mobile Navigation Drawer */}
+      {isMenuOpen && (
+        <div className="lg:hidden bg-white p-4 absolute inset-x-0 top-16 h-screen z-40 shadow-lg rounded-b-lg">
+          <nav className="flex flex-col items-center gap-4">
+            {navLinks.map((item, index) => (
               <Link
+                key={index}
                 href={item.href}
-                className="block text-lg font-bold text-black hover:text-indigo-600"
+                onClick={toggleMenu}
+                className="text-sm font-bold hover:text-indigo-600"
               >
                 {item.label}
               </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-8 px-6">
-          <Link
-            onClick={() => {
-              setMenuOpen(false);
-            }}
-            href="/login"
-            className="flex items-center text-lg font-bold text-black"
-          >
-            <Image
-              src={UserLogo}
-              alt="user"
-              height={20}
-              width={20}
-              className="mr-2"
-            />
-            Login / Register
-          </Link>
+            ))}
+            <div className="flex items-center gap-6 mt-6">
+              <Image
+                src={SearchLogo}
+                alt="Search"
+                height={24}
+                width={24}
+                className="cursor-pointer transition-transform transform hover:scale-110"
+              />
+              <Image
+                src={UserLogo}
+                alt="User"
+                height={24}
+                width={24}
+                className="cursor-pointer transition-transform transform hover:scale-110"
+              />
+              <Image
+                src={CartLogo}
+                alt="Cart"
+                height={24}
+                width={24}
+                className="cursor-pointer transition-transform transform hover:scale-110"
+              />
+            </div>
+            <Link
+              target="_blank"
+              href="/login"
+              className="bg-indigo-600 text-white rounded-full text-center py-3 px-10 mt-6"
+              onClick={toggleMenu}
+            >
+              Login
+            </Link>
+          </nav>
         </div>
-      </nav>
+      )}
     </header>
   );
 }
