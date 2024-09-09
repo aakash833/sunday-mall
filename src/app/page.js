@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import BudgetFriendlyProducts from "./components/budget-friendly-products";
 import { HomeSlider } from "./components/home-slider";
+import ProductCategories from "./components/explore-products";
 
 const settings = {
   infinite: true,
@@ -30,25 +31,8 @@ const settings = {
 
 export default function Home() {
   return (
-    <main className="mt-24">
-      {/* Updated Slider Section with Gradient and Better Spacing */}
-      <div className="py-7 bg-gray-100 text-2xl font-bold text-black">
-        <Slider {...settings}>
-          <div className="mr-16 text-center transition-transform hover:scale-105">
-            <p>Smart Gadgets Ka Naya Hall, SundayMall</p>
-          </div>
-          <div className="mr-16 text-center transition-transform hover:scale-105">
-            <p>Smart Gadgets Ka Naya Hall, SundayMall</p>
-          </div>
-          <div className="mr-16 text-center transition-transform hover:scale-105">
-            <p>Smart Gadgets Ka Naya Hall, SundayMall</p>
-          </div>
-        </Slider>
-      </div>
-
-      {/* HomeSlider Component */}
-      <HomeSlider />
-
+    <main className="mt-[110px]">
+      <ProductCategories />
       {/* Budget Friendly Products with hover effect */}
       <div className="py-10 bg-white">
         <BudgetFriendlyProducts />

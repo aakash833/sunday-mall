@@ -50,17 +50,17 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ease-in-out p-4 ${
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ease-in-out ${
         isSticky
-          ? "bg-white shadow-lg transform translate-y-0 opacity-100"
-          : "bg-white shadow-md transform -translate-y-full opacity-0"
+          ? "transform translate-y-0 opacity-100"
+          : "transform -translate-y-full opacity-0"
       }`}
       style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }} // Adjust transition duration
     >
       <div
-        className={`p-4 xl:px-14 py-5 flex justify-between items-center bg-white rounded-2xl border ${
-          isMenuOpen ? "border-0" : "border border-black"
-        }`}
+        className={`px-4 xl:px-14 py-5 flex justify-between items-center ${
+          isMenuOpen ? "border-0 overflow-hidden" : ""
+        } bg-white bg-opacity-10 backdrop-blur-lg`} // Blurry background with transparency
       >
         {/* Brand Logo */}
         <div className="flex items-center">
@@ -69,7 +69,7 @@ export default function Header() {
             alt="brand logo"
             height={50}
             width={130}
-            style={{ filter: "invert(1)" }}
+            // style={{ filter: "invert(1)" }}
           />
         </div>
 
@@ -129,7 +129,7 @@ export default function Header() {
 
       {/* Mobile Navigation Drawer */}
       {isMenuOpen && (
-        <div className="lg:hidden bg-white p-4 absolute inset-x-0 top-16 h-screen z-40 shadow-lg rounded-b-lg">
+        <div className="lg:hidden bg-white bg-opacity-10 backdrop-blur-lg p-4 absolute inset-x-0 top-24 h-screen z-40 shadow-lg rounded-b-lg">
           <nav className="flex flex-col items-center gap-4">
             {navLinks.map((item, index) => (
               <Link
